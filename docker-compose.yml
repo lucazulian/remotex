@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  remotex:
+    build:
+      context: ./
+      dockerfile: Dockerfile.dev
+    image: remotex-dev:latest
+    container_name: remotex-dev
+    security_opt:
+      - seccomp:unconfined
+    working_dir: /app
+    command: tail -f /dev/null
+    environment:
+      POSTGRES_HOST: remotex-db
+      POSTGRES_PORT: 5432
+    # env_file:
+    #   - .env.dev
+    ports:
+      - 4000:4000
+    volumes:
+      - .:/app
+      - ./.volumes/remotex/_build:/app/_build
+
+  remotex-db:
+    container_name: remotex-db
+    image: postgres:14.0
+    ports:
+      - 5432:5432
+    restart: always
+    environment:
+      POSTGRES_HOST: remotex-db
+      POSTGRES_DB: remotex
+      POSTGRES_USER: remotex
+      POSTGRES_PASSWORD: remotex
+    volumes:
+      - ./.volumes/remotex-db/data:/var/lib/postgresql/data
