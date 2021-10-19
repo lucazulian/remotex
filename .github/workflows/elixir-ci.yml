@@ -1,0 +1,150 @@
+---
+name: elixir-ci
+
+on:
+  push:
+    branches:
+      - "**"
+    tags:
+      - "*.*.*"
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  run_tests:
+    name: Run tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        otp: ["24.0.3"]
+        elixir: ["1.12.2"]
+    services:
+      postgres:
+        image: postgres:14.0
+        env:
+          POSTGRES_DB: remotex
+          POSTGRES_USER: remotex
+          POSTGRES_PASSWORD: remotex
+        ports:
+          - 5432/tcp
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ matrix.elixir }}
+          otp-version: ${{ matrix.otp }}
+
+      - name: Set cache key
+        id: set-cache-key
+        run: |
+          cache_key="${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles(format('{0}{1}', github.workspace, '**/mix.lock')) }}"
+          echo "::set-output name=cache_key::$cache_key"
+
+      - name: Retrieve dependencies cache
+        id: "mix-cache"
+        uses: actions/cache@v2
+        with:
+          path: deps
+          key: ${{ steps.set-cache-key.outputs.cache_key }}-mix
+          restore-keys: ${{ runner.os }}-mix
+
+      - name: Install
+        if: steps.mix-cache.outputs.cache-hit != 'true'
+        run: |
+          mix local.rebar --force
+          mix local.hex --force
+          mix deps.get
+
+      - name: Retrieve build cache
+        uses: actions/cache@v2
+        with:
+          path: _build
+          key: ${{ steps.set-cache-key.outputs.cache_key }}-build
+          restore-keys: ${{ runner.os }}-build
+
+      - name: Check Code Style
+        run: mix format.check
+
+      - name: Test Coverage
+        env:
+          MIX_ENV: test
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
+        run: |
+          mix co
+          mix ecto.reset
+          mix coveralls
+
+  run_static_analysis:
+    name: Run static analysis
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        otp: ["24.0.3"]
+        elixir: ["1.12.2"]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ matrix.elixir }}
+          otp-version: ${{ matrix.otp }}
+
+      - name: Set cache key
+        id: set-cache-key
+        run: |
+          cache_key="${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles(format('{0}{1}', github.workspace, '**/mix.lock')) }}"
+          echo "::set-output name=cache_key::$cache_key"
+
+      - name: Retrieve dependencies cache
+        id: "mix-cache"
+        uses: actions/cache@v2
+        with:
+          path: deps
+          key: ${{ steps.set-cache-key.outputs.cache_key }}-mix
+          restore-keys: ${{ runner.os }}-mix
+
+      - name: Install
+        if: steps.mix-cache.outputs.cache-hit != 'true'
+        run: |
+          mix local.rebar --force
+          mix local.hex --force
+          mix deps.get
+
+      - name: Retrieve build cache
+        uses: actions/cache@v2
+        with:
+          path: _build
+          key: ${{ steps.set-cache-key.outputs.cache_key }}-build
+          restore-keys: ${{ runner.os }}-build
+
+      - name: Retrieve Dialyzer PLTs cache
+        uses: actions/cache@v2
+        id: plts-cache
+        with:
+          path: priv/plts
+          key: ${{ steps.set-cache-key.outputs.cache_key }}-plts
+          restore-keys: ${{ runner.os }}-plts
+
+      - name: Static Analysis
+        run: |
+          mkdir -p priv/plts
+          mix co
+          mix check
