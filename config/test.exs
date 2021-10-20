@@ -9,7 +9,8 @@ config :remotex, Remotex.Repo,
   username: "remotex",
   password: "remotex",
   database: "remotex_test#{System.get_env("MIX_TEST_PARTITION")}",
-  hostname: "remotex-db",
+  hostname: System.get_env("POSTGRES_HOST") || "remotex-db",
+  port: System.get_env("POSTGRES_PORT") || 5432,
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: 10
 

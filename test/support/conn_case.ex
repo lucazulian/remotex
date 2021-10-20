@@ -15,6 +15,8 @@ defmodule RemotexWeb.ConnCase do
   this option is not recommended for other databases.
   """
 
+  # credo:disable-for-this-file Credo.Check.Design.AliasUsage
+
   use ExUnit.CaseTemplate
 
   using do
