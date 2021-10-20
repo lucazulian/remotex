@@ -5,10 +5,6 @@ defmodule RemotexWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", RemotexWeb do
-    pipe_through :api
-  end
-
   # Enables LiveDashboard only for development
   #
   # If you want to use the LiveDashboard in production, you should put
@@ -19,9 +15,15 @@ defmodule RemotexWeb.Router do
   if Mix.env() in [:dev, :test] do
     import Phoenix.LiveDashboard.Router
 
-    scope "/" do
+    scope "/private" do
       pipe_through [:fetch_session, :protect_from_forgery]
       live_dashboard "/dashboard", metrics: RemotexWeb.Telemetry
     end
+  end
+
+  scope "/", RemotexWeb.Controllers do
+    pipe_through :api
+
+    get "/", RandomUsers, :get
   end
 end
