@@ -19,7 +19,7 @@ defmodule Remotex.MixProject do
 
   def application do
     [
-      mod: {Remotex.Application, []},
+      mod: {Remotex.Application, %{env: Mix.env()}},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
@@ -42,7 +42,8 @@ defmodule Remotex.MixProject do
       {:credo, "~> 1.5", only: :dev, runtime: false},
       {:dialyxir, "~> 1.1", only: :dev, runtime: false},
       {:excoveralls, "~> 0.14.3", only: [:dev, :test]},
-      {:open_api_spex, "~> 3.10"}
+      {:open_api_spex, "~> 3.10"},
+      {:mox, "~> 1.0", only: [:dev, :test]}
     ]
   end
 
@@ -62,6 +63,7 @@ defmodule Remotex.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
+      tt: "test --trace",
       "test.slow": "test --slowest 10"
     ]
   end
@@ -79,7 +81,9 @@ defmodule Remotex.MixProject do
     [
       coveralls: :test,
       "coveralls.detail": :test,
-      "coveralls.html": :test
+      "coveralls.html": :test,
+      "test.slow": :test,
+      tt: :test
     ]
   end
 end

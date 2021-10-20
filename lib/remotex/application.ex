@@ -6,22 +6,21 @@ defmodule Remotex.Application do
   use Application
 
   @impl true
-  def start(_type, _args) do
-    children = [
-      # Start the Ecto repository
-      Remotex.Repo,
-      # Start the Telemetry supervisor
-      RemotexWeb.Telemetry,
-      # Start the PubSub system
-      {Phoenix.PubSub, name: Remotex.PubSub},
-      # Start the Endpoint (http/https)
-      RemotexWeb.Endpoint
-      # Start a worker by calling: Remotex.Worker.start_link(arg)
-      # {Remotex.Worker, arg}
-    ]
+  def start(_type, %{env: env}) do
+    children =
+      [
+        # Start the Ecto repository
+        Remotex.Repo,
+        # Start the Telemetry supervisor
+        RemotexWeb.Telemetry,
+        # Start the PubSub system
+        {Phoenix.PubSub, name: Remotex.PubSub},
+        # Start the Endpoint (http/https)
+        RemotexWeb.Endpoint
+        # Start a worker by calling: Remotex.Worker.start_link(arg)
+        # {Remotex.Worker, arg}
+      ] ++ supervisors(env)
 
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Remotex.Supervisor]
     Supervisor.start_link(children, opts)
   end
@@ -33,4 +32,7 @@ defmodule Remotex.Application do
     RemotexWeb.Endpoint.config_change(changed, removed)
     :ok
   end
+
+  defp supervisors(:test), do: []
+  defp supervisors(_), do: [Remotex.Core.Supervisor]
 end
