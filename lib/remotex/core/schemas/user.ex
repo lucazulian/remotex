@@ -16,7 +16,6 @@ defmodule Remotex.Core.Schemas.User do
 
   schema "users" do
     field :points, :integer, default: 0
-
     timestamps()
   end
 
@@ -32,12 +31,12 @@ defmodule Remotex.Core.Schemas.User do
   end
 
   def validate_points_range(changeset) do
-    name = get_field(changeset, :points)
+    points = get_field(changeset, :points)
 
-    if name <= 100 && name >= 0 do
+    if points <= 100 && points >= 0 do
       changeset
     else
-      add_error(changeset, :points, "is not in 0-100 range")
+      add_error(changeset, :points, "is not in 0-100 range", validation: :invalid)
     end
   end
 end

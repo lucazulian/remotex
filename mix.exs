@@ -57,7 +57,6 @@ defmodule Remotex.MixProject do
       "format.check": [
         "format --check-formatted mix.exs 'lib/**/*.{ex,exs}' 'test/**/*.{ex,exs}' 'config/*.{ex, exs}' 'priv/**/*.{ex,exs}'"
       ],
-      cover: "coveralls",
       serve: "phx.server",
       setup: ["deps.get", "ecto.setup"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
@@ -79,9 +78,8 @@ defmodule Remotex.MixProject do
   defp preferred_cli_env do
     [
       coveralls: :test,
-      cover: :test,
-      "cover.detail": :test,
-      "cover.html": :test
+      "coveralls.detail": :test,
+      "coveralls.html": :test
     ]
   end
 end

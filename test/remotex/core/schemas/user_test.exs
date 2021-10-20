@@ -46,11 +46,27 @@ defmodule Remotex.Core.Schemas.UserTest do
 
       assert %Changeset{valid?: false, errors: errors} = User.create_changeset(invalid_params)
 
-      for {field, _} <- @mutable_fields do
+      for field <- @mutable_fields do
         {_, meta} = errors[field]
 
         assert meta[:validation] == :cast,
                "The validation type, #{meta[:validation]}, is incorrect."
+      end
+    end
+
+    test "error: returns an error changeset when given non-valid values" do
+      invalid_params = %{points: 101}
+
+      assert %Changeset{valid?: false, errors: errors} = User.create_changeset(invalid_params)
+
+      for field <- @mutable_fields do
+        {message, meta} = errors[field]
+
+        assert meta[:validation] == :invalid,
+               "The validation filed, #{meta[:validation]}, is incorrect."
+
+        assert message == "is not in 0-100 range",
+               "The validation message, #{message}, is incorrect."
       end
     end
   end
