@@ -23,12 +23,12 @@ jobs:
     strategy:
       matrix:
         otp: ["24.0.3"]
-        elixir: ["1.12.2"]
+        elixir: ["1.12.3"]
     services:
       postgres:
         image: postgres:14.0
         env:
-          POSTGRES_DB: remotex
+          POSTGRES_DB: remotex_test
           POSTGRES_USER: remotex
           POSTGRES_PASSWORD: remotex
         ports:
@@ -95,7 +95,7 @@ jobs:
     strategy:
       matrix:
         otp: ["24.0.3"]
-        elixir: ["1.12.2"]
+        elixir: ["1.12.3"]
 
     steps:
       - name: Checkout

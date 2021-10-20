@@ -7,7 +7,7 @@
 all: init
 .PHONY: init start up build shell delete
 
-init: up setup compile
+init: up setup compile				## Setup application components
 
 start: up setup compile				## Start application
 	docker-compose exec remotex mix phx.server
