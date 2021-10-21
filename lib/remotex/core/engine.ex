@@ -22,7 +22,7 @@ defmodule Remotex.Core.Engine do
   @impl GenServer
   def init(opts) do
     mode = Keyword.get(opts, :mode, :periodic)
-    interval = Keyword.get(opts, :interval, 10_000)
+    interval = Keyword.get(opts, :interval, 60_000)
 
     case mode do
       :periodic ->
@@ -50,7 +50,7 @@ defmodule Remotex.Core.Engine do
     {:reply, @users_strategy_module.fetch(state), EngineState.new_queried_at(state)}
   end
 
-  defp start_async_task() do
+  defp start_async_task do
     Task.Supervisor.start_child(
       Remotex.TaskSupervisor,
       fn -> @users_strategy_module.update() end
