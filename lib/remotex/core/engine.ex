@@ -5,10 +5,9 @@ defmodule Remotex.Core.Engine do
 
   require Logger
 
+  alias Remotex.Core.UserOperations
   alias Remotex.Core.Values.EngineState
   alias Remotex.Core.Values.UsersQueryResult
-
-  @users_strategy_module Application.compile_env(:remotex, :users_strategy_module)
 
   @spec query_users :: {:ok, UsersQueryResult.t()} | {:error, term()}
   def query_users do
@@ -47,13 +46,10 @@ defmodule Remotex.Core.Engine do
 
   @impl GenServer
   def handle_call(:query_users, _from, state) do
-    {:reply, @users_strategy_module.fetch(state), EngineState.new_queried_at(state)}
+    {:reply, UserOperations.fetch(state), EngineState.new_queried_at(state)}
   end
 
   defp start_async_task do
-    Task.Supervisor.start_child(
-      Remotex.TaskSupervisor,
-      fn -> @users_strategy_module.update() end
-    )
+    Task.Supervisor.start_child(Remotex.TaskSupervisor, fn -> UserOperations.update() end)
   end
 end

@@ -7,7 +7,7 @@ Elixir fun application that returns users with more than a random number of poin
 
 ## About the Application
 
-Remotex is a Elixir Phoenix Api application, with a single endpoint opened at 4000 port.
+Remotex is a Elixir Phoenix Api application, with a single endpoint opened at `4000` port.
 
 The application will return, at max 2 but it can return less, users objects which its points are more than a random number.
 
@@ -27,15 +27,13 @@ The `Engine` genserver with run a periodic action every minute in which all reco
 Together with the database action, the `max_number` in `Engine` genserver would be updated with a new random value between 0 and 100 (comprised).
 The `Engine` genserver has a `query_users` api which retrieve a max of 2 users with more points than `max_number` previously mentioned. 
 
-For testing purposes, all these operations are delegate to `EngineState` struct and `UsersQueryBulkBehaviour` behaviour.
+For testing purposes, all these operations are delegate to `EngineState` struct and `UserOperations` module.
 For the same reason, in order to test periodic action without wait some intervals, `Engine` genserver has two modes:
 - `periodic` which is the default and allow periodic actions
 - `manual` which is used by test to trigger manually the `handle_info`
 
 In this way it's possible to unit test the above business logic without the problems presented by testing it with OTP infrastructure.
 There are also integration tests that exercise the business logic with OTP infrastructure.
-
-In the *test* configuration there is a `NoOpUsersQueryBulk` that return fake responses, while in the other environments there is the real implementation for the behaviour.
 
 In order to simplify the implementation, the asynchronous parts are delegated to task without monitoring nor crash control.
 There is no control over the overlap of asynchronous tasks that could cause problems for the database.

@@ -3,12 +3,12 @@ defmodule Remotex.Core.EngineTest do
 
   import Mock
 
-  alias Remotex.Core.Behaviours.NoOpUsersQueryBulk
   alias Remotex.Core.Engine
+  alias Remotex.Core.UserOperations
   alias Remotex.Core.Values.UsersQueryResult
 
-  describe "periodic action" do
-    test "when the process \"ticks\", the update UsersQueryBulk interface is called" do
+  describe "Periodic action" do
+    test "When the process \"ticks\", the update UsersQueryBulk interface is called" do
       test_pid = self()
       ref = make_ref()
 
@@ -20,7 +20,7 @@ defmodule Remotex.Core.EngineTest do
       pid = start_supervised!({Engine, start_options})
       _task_pid = start_supervised!({Task.Supervisor, name: Remotex.TaskSupervisor})
 
-      with_mock NoOpUsersQueryBulk,
+      with_mock UserOperations,
         update: fn ->
           send(test_pid, {:send_users_update_bulk_called, ref})
           :ok
@@ -31,7 +31,7 @@ defmodule Remotex.Core.EngineTest do
       end
     end
 
-    test "when query_users is called fetch UsersQueryBulk interface is called with last queried_at" do
+    test "When query_users is called fetch UsersQueryBulk interface is called with last queried_at" do
       test_pid = self()
       ref = make_ref()
 
@@ -47,7 +47,7 @@ defmodule Remotex.Core.EngineTest do
 
       _pid = start_supervised!({Engine, start_options})
 
-      with_mock NoOpUsersQueryBulk,
+      with_mock UserOperations,
         fetch: fn _ ->
           send(test_pid, {:send_users_fetch_called, ref})
 

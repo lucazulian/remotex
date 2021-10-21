@@ -1,7 +1,5 @@
-defmodule Remotex.Core.Behaviours.UsersQueryBulk do
+defmodule Remotex.Core.UserOperations do
   @moduledoc false
-
-  @behaviour Remotex.Core.Behaviours.UsersQueryBulkBehaviour
 
   import Ecto.Query
 
@@ -12,7 +10,6 @@ defmodule Remotex.Core.Behaviours.UsersQueryBulk do
   alias Remotex.Core.Values.UsersQueryResult
   alias Remotex.Repo
 
-  @impl true
   def update do
     User
     |> update(set: [points: fragment("floor(RANDOM() * 100)")])
@@ -26,7 +23,6 @@ defmodule Remotex.Core.Behaviours.UsersQueryBulk do
       {:error, :invalid_update_request}
   end
 
-  @impl true
   def fetch(%EngineState{} = engine_state) do
     query =
       from u in User,

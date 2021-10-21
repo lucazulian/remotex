@@ -14,7 +14,7 @@ defmodule Remotex.Core.Schemas.UserTest do
 
   describe "fields and types" do
     @tag :schema_definition
-    test "it has the correct fields and types" do
+    test "It should return the correct fields and types" do
       actual_fields_with_types =
         for field <- User.__schema__(:fields) do
           type = User.__schema__(:type, field)
@@ -27,7 +27,7 @@ defmodule Remotex.Core.Schemas.UserTest do
   end
 
   describe "create_changeset/1" do
-    test "success: returns a valid changeset when given valid arguments" do
+    test "It should returns a valid changeset when given valid arguments" do
       valid_params = %{points: 10}
 
       changeset = User.create_changeset(valid_params)
@@ -41,7 +41,7 @@ defmodule Remotex.Core.Schemas.UserTest do
       assert changes.points == valid_params.points
     end
 
-    test "error: returns an error changeset when given un-castable values" do
+    test "It should returns an error changeset when given un-castable values" do
       invalid_params = %{points: []}
 
       assert %Changeset{valid?: false, errors: errors} = User.create_changeset(invalid_params)
@@ -54,7 +54,7 @@ defmodule Remotex.Core.Schemas.UserTest do
       end
     end
 
-    test "error: returns an error changeset when given non-valid values" do
+    test "It should returns an error changeset when given non-valid values" do
       invalid_params = %{points: 101}
 
       assert %Changeset{valid?: false, errors: errors} = User.create_changeset(invalid_params)
