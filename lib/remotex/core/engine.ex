@@ -22,11 +22,12 @@ defmodule Remotex.Core.Engine do
   @impl GenServer
   def init(opts) do
     mode = Keyword.get(opts, :mode, :periodic)
-    interval = Keyword.get(opts, :interval, 60_000)
+    interval = Keyword.get(opts, :interval, 10_000)
 
     case mode do
       :periodic ->
         :timer.send_interval(interval, self(), :tick)
+        start_async_task()
 
       :manual ->
         :ok
@@ -39,10 +40,7 @@ defmodule Remotex.Core.Engine do
   def handle_info(:tick, state) do
     Logger.debug(fn -> "Start periodic tick" end)
 
-    Task.Supervisor.start_child(
-      Remotex.TaskSupervisor,
-      fn -> @users_strategy_module.update() end
-    )
+    start_async_task()
 
     {:noreply, EngineState.new_random(state)}
   end
@@ -50,5 +48,12 @@ defmodule Remotex.Core.Engine do
   @impl GenServer
   def handle_call(:query_users, _from, state) do
     {:reply, @users_strategy_module.fetch(state), EngineState.new_queried_at(state)}
+  end
+
+  defp start_async_task() do
+      Task.Supervisor.start_child(
+        Remotex.TaskSupervisor,
+        fn -> @users_strategy_module.update() end
+      )
   end
 end

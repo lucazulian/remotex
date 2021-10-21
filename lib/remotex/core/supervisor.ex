@@ -15,8 +15,8 @@ defmodule Remotex.Core.Supervisor do
 
   defp children do
     [
-      Remotex.Core.Engine,
-      {Task.Supervisor, name: Remotex.TaskSupervisor}
+      {Task.Supervisor, name: Remotex.TaskSupervisor},
+      Remotex.Core.Engine
     ]
   end
 end
