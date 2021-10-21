@@ -12,7 +12,12 @@ defmodule Remotex.Core.UserOperations do
 
   def update do
     User
-    |> update(set: [points: fragment("floor(RANDOM() * 100)")])
+    |> update(
+      set: [
+        points: fragment("floor(RANDOM() * 100)"),
+        updated_at: fragment("NOW() at time zone 'utc'")
+      ]
+    )
     |> Repo.update_all([])
 
     :ok
