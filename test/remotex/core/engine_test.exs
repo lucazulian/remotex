@@ -12,13 +12,8 @@ defmodule Remotex.Core.EngineTest do
       test_pid = self()
       ref = make_ref()
 
-      start_options = [
-        mode: :manual,
-        interval: 5
-      ]
-
-      pid = start_supervised!({Engine, start_options})
-      _task_pid = start_supervised!({Task.Supervisor, name: Remotex.TaskSupervisor})
+      pid = start_supervised!({Engine, [mode: :manual]})
+      _ = start_supervised!({Task.Supervisor, name: Remotex.TaskSupervisor})
 
       with_mock UserOperations,
         update: fn ->
@@ -35,17 +30,12 @@ defmodule Remotex.Core.EngineTest do
       test_pid = self()
       ref = make_ref()
 
-      start_options = [
-        mode: :manual,
-        interval: 5
-      ]
-
       users_query_result = %UsersQueryResult{
         users: [],
         queried_at: nil
       }
 
-      _pid = start_supervised!({Engine, start_options})
+      _ = start_supervised!({Engine, [mode: :manual]})
 
       with_mock UserOperations,
         fetch: fn _ ->
