@@ -51,9 +51,9 @@ defmodule Remotex.Core.Engine do
   end
 
   defp start_async_task() do
-      Task.Supervisor.start_child(
-        Remotex.TaskSupervisor,
-        fn -> @users_strategy_module.update() end
-      )
+    Task.Supervisor.start_child(
+      Remotex.TaskSupervisor,
+      fn -> @users_strategy_module.update() end
+    )
   end
 end
