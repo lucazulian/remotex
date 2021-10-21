@@ -7,10 +7,21 @@ defmodule RemotexWeb.Controllers.RandomUsers do
 
   import Plug.Conn
 
+  alias Remotex.Core.Engine
+
   @doc """
   Returns, at max 2 (it can return less), users with more than a random number of points
   """
   def get(conn, _params) do
-    send_resp(conn, 200, "ok")
+    {status_code, body} =
+      case Engine.query_users() do
+        {:ok, %{users: users, queried_at: queried_at} = response} ->
+          {200, response}
+
+        {:error, reason} ->
+          {500, reason}
+      end
+
+    send_resp(conn, status_code, Jason.encode!(body))
   end
 end

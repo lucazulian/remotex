@@ -10,7 +10,10 @@ defmodule Remotex.Core.Engine do
   @random_range 0..100 |> Enum.to_list()
   @users_strategy_module Application.compile_env(:remotex, :users_strategy_module)
 
-  # Public API
+  @spec query_users :: {:ok, map} | {:error, term()}
+  def query_users do
+    GenServer.call(__MODULE__, :query_users)
+  end
 
   def start_link(opts) do
     GenServer.start_link(__MODULE__, opts, name: __MODULE__)
@@ -40,5 +43,19 @@ defmodule Remotex.Core.Engine do
     )
 
     {:noreply, %__MODULE__{state | max_number: Enum.random(@random_range)}}
+  end
+
+  @impl GenServer
+  def handle_call(:query_users, _from, state) do
+    response =
+      case @users_strategy_module.fetch(state.max_number) do
+        {:ok, users} ->
+          {:ok, %{users: users, queried_at: state.queried_at}}
+
+        {:error, _} = error ->
+          error
+      end
+
+    {:reply, response, %__MODULE__{state | queried_at: DateTime.utc_now()}}
   end
 end

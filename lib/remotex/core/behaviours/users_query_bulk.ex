@@ -9,7 +9,6 @@ defmodule Remotex.Core.Behaviours.UsersQueryBulk do
   end
 
   @impl true
-  def fetch(_max_number) do
-    {:ok, []}
-  end
+  def fetch(0), do: {:ok, []}
+  def fetch(_), do: {:error, :number_too_high}
 end
