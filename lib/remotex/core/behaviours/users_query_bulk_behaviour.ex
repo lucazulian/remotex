@@ -4,6 +4,6 @@ defmodule Remotex.Core.Behaviours.UsersQueryBulkBehaviour do
   alias Remotex.Core.Values.EngineState
   alias Remotex.Core.Values.UsersQueryResult
 
-  @callback update() :: {:ok, term()} | {:error, term()}
+  @callback update() :: :ok | {:error, term()}
   @callback fetch(state :: EngineState.t()) :: {:ok, UsersQueryResult.t()} | {:error, term()}
 end

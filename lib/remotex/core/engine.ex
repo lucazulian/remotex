@@ -36,6 +36,8 @@ defmodule Remotex.Core.Engine do
 
   @impl GenServer
   def handle_info(:tick, state) do
+    Logger.debug(fn -> "Start periodic tick" end)
+
     Task.Supervisor.start_child(
       Remotex.TaskSupervisor,
       fn -> @users_strategy_module.update() end

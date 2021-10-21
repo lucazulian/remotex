@@ -7,9 +7,7 @@ defmodule Remotex.Core.Behaviours.NoOpUsersQueryBulk do
   alias Remotex.Core.Values.UsersQueryResult
 
   @impl true
-  def update do
-    {:ok, :test}
-  end
+  def update, do: :ok
 
   @impl true
   def fetch(%EngineState{max_number: 0}), do: {:ok, %UsersQueryResult{}}
