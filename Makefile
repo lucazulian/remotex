@@ -5,12 +5,15 @@
 # @version 0.1
 
 all: init
-.PHONY: init start up build shell delete
+.PHONY: init setup start up build shell delete
 
-init: up setup compile				## Setup application components
+init: up setup						## Setup application components
 
-start: up setup compile				## Start application
-	docker-compose exec remotex mix phx.server
+start: up							## Start application
+	docker-compose exec remotex mix serve
+
+setup: up							## Setup application database
+	docker-compose exec remotex mix setup
 
 up:									## Start all services
 	docker-compose up -d --remove-orphans
