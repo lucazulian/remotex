@@ -6,10 +6,11 @@ defmodule Remotex.Core.Engine do
   require Logger
 
   alias Remotex.Core.Values.EngineState
+  alias Remotex.Core.Values.UsersQueryResult
 
   @users_strategy_module Application.compile_env(:remotex, :users_strategy_module)
 
-  @spec query_users :: {:ok, map} | {:error, term()}
+  @spec query_users :: {:ok, UsersQueryResult.t()} | {:error, term()}
   def query_users do
     GenServer.call(__MODULE__, :query_users)
   end

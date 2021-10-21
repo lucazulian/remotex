@@ -15,6 +15,7 @@
     "lib/remotex_web/router.ex",
     "lib/remotex_web/views/error_helpers.ex",
     "lib/remotex_web/views/error_view.ex",
+    "lib/remotex_web/open_api/",
     "test/support/",
     "priv/"
   ]

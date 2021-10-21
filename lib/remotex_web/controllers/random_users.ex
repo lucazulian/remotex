@@ -4,16 +4,27 @@ defmodule RemotexWeb.Controllers.RandomUsers do
   require Logger
 
   use Phoenix.Controller, namespace: RemotexWeb
+  use OpenApiSpex.ControllerSpecs
 
   import Plug.Conn
 
   alias Remotex.Core.Engine
+  alias RemotexWeb.OpenApi.ApiResponses
   alias RemotexWeb.Values.RandomUsersErrorResponse, as: Error
   alias RemotexWeb.Values.RandomUsersResponseParser, as: Parser
 
   @doc """
   Returns, at max 2 (it can return less), users with more than a random number of points
   """
+  operation(:get,
+    summary:
+      "Returns, at max 2 (it can return less), users with more than a random number of points",
+    responses: %{
+      200 => {"Successful fetch data", "application/json", ApiResponses.RandomUsersResponse},
+      500 => {"Internal error", "application/json", ApiResponses.RandomUsersErrorResponse}
+    }
+  )
+
   def get(conn, _params) do
     with {:ok, query_response} <- Engine.query_users(),
          random_users <- Parser.parse(query_response) do

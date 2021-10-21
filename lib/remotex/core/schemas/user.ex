@@ -19,10 +19,6 @@ defmodule Remotex.Core.Schemas.User do
     timestamps()
   end
 
-  defp all_fields do
-    __MODULE__.__schema__(:fields)
-  end
-
   def create_changeset(params) do
     %__MODULE__{}
     |> cast(params, all_fields())
@@ -30,7 +26,11 @@ defmodule Remotex.Core.Schemas.User do
     |> validate_points_range()
   end
 
-  def validate_points_range(changeset) do
+  defp all_fields do
+    __MODULE__.__schema__(:fields)
+  end
+
+  defp validate_points_range(changeset) do
     points = get_field(changeset, :points)
 
     if points <= 100 && points >= 0 do

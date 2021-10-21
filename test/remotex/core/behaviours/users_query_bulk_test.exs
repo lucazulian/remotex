@@ -16,7 +16,7 @@ defmodule Remotex.Core.Behaviours.UsersQueryBulkTest do
       users_from_db = Repo.all(User)
 
       for %User{points: points} <- users_from_db do
-        assert points >= 0 && points <= 100,
+        assert points <= 100 && points >= 0,
                "Points #{points} did not match 0-100 range expectation"
       end
     end

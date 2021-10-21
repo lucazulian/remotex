@@ -5,6 +5,17 @@ defmodule RemotexWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :doc do
+    plug OpenApiSpex.Plug.PutApiSpec, module: RemotexWeb.OpenApi.ApiSpec
+  end
+
+  pipeline :browser do
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
+  end
+
   # Enables LiveDashboard only for development
   #
   # If you want to use the LiveDashboard in production, you should put
@@ -18,6 +29,18 @@ defmodule RemotexWeb.Router do
     scope "/private" do
       pipe_through [:fetch_session, :protect_from_forgery]
       live_dashboard "/dashboard", metrics: RemotexWeb.Telemetry
+    end
+
+    scope "/doc" do
+      pipe_through [:api, :doc]
+
+      get "/openapi", OpenApiSpex.Plug.RenderSpec, []
+
+      scope "/swagger" do
+        pipe_through :browser
+
+        get "/", OpenApiSpex.Plug.SwaggerUI, path: "/doc/openapi"
+      end
     end
   end
 

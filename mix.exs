@@ -29,21 +29,21 @@ defmodule Remotex.MixProject do
 
   defp deps do
     [
-      {:phoenix, "~> 1.6.2"},
-      {:phoenix_ecto, "~> 4.4"},
-      {:ecto_sql, "~> 3.6"},
-      {:postgrex, ">= 0.0.0"},
-      {:phoenix_live_dashboard, "~> 0.5"},
-      {:telemetry_metrics, "~> 0.6"},
-      {:telemetry_poller, "~> 1.0"},
-      {:gettext, "~> 0.18"},
-      {:jason, "~> 1.2"},
-      {:plug_cowboy, "~> 2.5"},
       {:credo, "~> 1.5", only: :dev, runtime: false},
       {:dialyxir, "~> 1.1", only: :dev, runtime: false},
+      {:ecto_sql, "~> 3.6"},
       {:excoveralls, "~> 0.14.3", only: [:dev, :test]},
+      {:gettext, "~> 0.18"},
+      {:jason, "~> 1.2"},
+      {:mock, "~> 0.3.7", only: :test},
       {:open_api_spex, "~> 3.10"},
-      {:mock, "~> 0.3.7", only: :test}
+      {:phoenix, "~> 1.6.2"},
+      {:phoenix_ecto, "~> 4.4"},
+      {:phoenix_live_dashboard, "~> 0.5"},
+      {:plug_cowboy, "~> 2.5"},
+      {:postgrex, ">= 0.0.0"},
+      {:telemetry_metrics, "~> 0.6"},
+      {:telemetry_poller, "~> 1.0"}
     ]
   end
 
