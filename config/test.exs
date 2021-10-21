@@ -27,4 +27,4 @@ config :logger, level: :warn
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime
 
-config :remotex, users_strategy_module: Remotex.UsersQueryBulkMock
+config :remotex, users_strategy_module: Remotex.Core.Behaviours.NoOpUsersQueryBulk

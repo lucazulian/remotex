@@ -15,11 +15,8 @@ defmodule RemotexWeb.Controllers.RandomUsers do
   def get(conn, _params) do
     {status_code, body} =
       case Engine.query_users() do
-        {:ok, %{users: users, queried_at: queried_at} = response} ->
-          {200, response}
-
-        {:error, reason} ->
-          {500, reason}
+        {:ok, response} -> {200, response}
+        {:error, reason} -> {500, reason}
       end
 
     send_resp(conn, status_code, Jason.encode!(body))

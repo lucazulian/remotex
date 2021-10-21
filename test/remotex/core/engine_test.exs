@@ -1,9 +1,7 @@
 defmodule Remotex.Core.EngineTest do
   use ExUnit.Case, async: false
 
-  import Mox
-
-  setup :set_mox_global
+  import Mock
 
   describe "periodic action" do
     test "when the process \"ticks\", the UsersQueryBulk interface is called" do
@@ -19,15 +17,15 @@ defmodule Remotex.Core.EngineTest do
       pid = start_supervised!({Remotex.Core.Engine, start_options})
       _task_pid = start_supervised!({Task.Supervisor, name: Remotex.TaskSupervisor})
 
-      Remotex.UsersQueryBulkMock
-      |> expect(:update, fn ->
-        send(test_pid, {:send_users_query_bulk_called, ref})
-        :ok
-      end)
+      with_mock Remotex.Core.Behaviours.NoOpUsersQueryBulk,
+        update: fn ->
+          send(test_pid, {:send_users_query_bulk_called, ref})
+          :ok
+        end do
+        send(pid, :tick)
 
-      send(pid, :tick)
-
-      assert_receive {:send_users_query_bulk_called, ^ref}
+        assert_receive {:send_users_query_bulk_called, ^ref}
+      end
     end
   end
 end

@@ -52,5 +52,8 @@ TODO
 ## Improvements / Missing parts / Bugs
 
 - add structured logs
+- add telemetry stuff
 - add opentelemetry stuff
+- add monitoring and business metrics
 - introduce chaos monkey / mutation testing
+- increase code coverage

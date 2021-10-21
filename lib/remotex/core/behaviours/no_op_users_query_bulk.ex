@@ -3,12 +3,15 @@ defmodule Remotex.Core.Behaviours.NoOpUsersQueryBulk do
 
   @behaviour Remotex.Core.Behaviours.UsersQueryBulkBehaviour
 
+  alias Remotex.Core.Values.EngineState
+  alias Remotex.Core.Values.UsersQueryResult
+
   @impl true
   def update do
     {:ok, :test}
   end
 
   @impl true
-  def fetch(0), do: {:ok, []}
+  def fetch(%EngineState{max_number: 0}), do: {:ok, %UsersQueryResult{}}
   def fetch(_), do: {:error, :number_too_high}
 end

@@ -43,7 +43,7 @@ defmodule Remotex.MixProject do
       {:dialyxir, "~> 1.1", only: :dev, runtime: false},
       {:excoveralls, "~> 0.14.3", only: [:dev, :test]},
       {:open_api_spex, "~> 3.10"},
-      {:mox, "~> 1.0", only: [:dev, :test]}
+      {:mock, "~> 0.3.7", only: :test}
     ]
   end
 

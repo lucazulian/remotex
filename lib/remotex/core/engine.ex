@@ -5,9 +5,8 @@ defmodule Remotex.Core.Engine do
 
   require Logger
 
-  defstruct [:max_number, :queried_at]
+  alias Remotex.Core.Values.EngineState
 
-  @random_range 0..100 |> Enum.to_list()
   @users_strategy_module Application.compile_env(:remotex, :users_strategy_module)
 
   @spec query_users :: {:ok, map} | {:error, term()}
@@ -32,7 +31,7 @@ defmodule Remotex.Core.Engine do
         :ok
     end
 
-    {:ok, %__MODULE__{max_number: Enum.random(@random_range), queried_at: nil}}
+    {:ok, EngineState.init()}
   end
 
   @impl GenServer
@@ -42,20 +41,11 @@ defmodule Remotex.Core.Engine do
       fn -> @users_strategy_module.update() end
     )
 
-    {:noreply, %__MODULE__{state | max_number: Enum.random(@random_range)}}
+    {:noreply, EngineState.new_random(state)}
   end
 
   @impl GenServer
   def handle_call(:query_users, _from, state) do
-    response =
-      case @users_strategy_module.fetch(state.max_number) do
-        {:ok, users} ->
-          {:ok, %{users: users, queried_at: state.queried_at}}
-
-        {:error, _} = error ->
-          error
-      end
-
-    {:reply, response, %__MODULE__{state | queried_at: DateTime.utc_now()}}
+    {:reply, @users_strategy_module.fetch(state), EngineState.new_queried_at(state)}
   end
 end

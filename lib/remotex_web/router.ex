@@ -25,5 +25,6 @@ defmodule RemotexWeb.Router do
     pipe_through :api
 
     get "/", RandomUsers, :get
+    match :*, "/*path", System, :not_found
   end
 end
