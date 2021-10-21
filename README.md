@@ -5,12 +5,23 @@ Elixir fun application that returns users with more than a random number of poin
 [![CI](https://github.com/lucazulian/remotex/actions/workflows/elixir-ci.yml/badge.svg)](https://github.com/lucazulian/remotex/actions/workflows/elixir-ci.yml)
 
 
+## About the Application
+
+TODO
+
+
 ## Requirements
   
+  - postgres **14.0+**
+  - Erlang/OTP **24**
+  - elixir **1.12.3**
+  
+  or
+
   - docker **20+**
   - docker-compose **1.29+**
   - GNU make **4+**
-
+  
 
 ## Development links
 
@@ -23,10 +34,36 @@ Elixir fun application that returns users with more than a random number of poin
 
 ## Getting started
 
-Makefile is used as a wrapper around docker-compose commands.
-Some commands are aliases around mix aliases, just to avoid boring and repetitive typing. 
+### Local environment
 
-#### make commands
+In your local environment it needs to install all *Requirements* and requires you to have setup PostgreSQL beforehand.
+
+#### Gets all dependencies
+
+```bash
+mix deps.get
+```
+
+#### Setup PostgreSQL instance, start migration and seeds scripts
+
+```bash
+mix setup
+```
+
+#### Start application
+
+```bash
+mix phx.server
+```
+
+
+### Docker Compose
+
+Docker Compose is used to simplify development and components installation (like PostgreSQL) and configurations.
+Makefile is used as a wrapper around docker-compose commands.
+Some commands are aliases around mix aliases, just to avoid boring and repetitive commands. 
+
+#### Make commands
 
 ```bash
 build                          Build all services containers
@@ -39,18 +76,24 @@ start                          Start application
 up                             Start all services
 ```
 
-
-## How to use
-
-### Docker
-
 #### Setup the project
 
 ```bash
 make init
 ```
 
-TODO
+#### Start the project
+
+```bash
+make start
+```
+
+#### Destroy environment
+
+```bash
+make delete
+```
+
 
 ## API Documentation
 
