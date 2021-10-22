@@ -15,6 +15,9 @@ require Logger
 alias Remotex.Repo
 alias Remotex.Schemas.User
 
+Enum.each([:ecto, :postgrex], &Application.ensure_all_started/1)
+_pid = Repo.start_link()
+
 Logger.configure(level: :info)
 
 datetime = DateTime.utc_now()
