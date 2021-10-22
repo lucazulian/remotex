@@ -26,7 +26,6 @@ defmodule Remotex.Engine do
     case mode do
       :periodic ->
         :timer.send_interval(interval, self(), :tick)
-        start_async_task()
 
       :manual ->
         :ok
