@@ -1,11 +1,11 @@
-defmodule Remotex.Core.UserOperationsTest do
+defmodule Remotex.EngineOperationsTest do
   use Remotex.DataCase
 
-  alias Remotex.Core.Schemas.User
-  alias Remotex.Core.UserOperations
-  alias Remotex.Core.Values.EngineState
-  alias Remotex.Core.Values.UsersQueryResult
   alias Remotex.Repo
+  alias Remotex.Schemas.User
+  alias Remotex.UserOperations
+  alias Remotex.Values.EngineState
+  alias Remotex.Values.UsersQueryResult
 
   describe "update/0" do
     test "It should updates all users with random points" do

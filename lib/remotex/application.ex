@@ -34,5 +34,5 @@ defmodule Remotex.Application do
   end
 
   defp supervisors(:test), do: []
-  defp supervisors(_), do: [Remotex.Core.Supervisor]
+  defp supervisors(_), do: [Remotex.EngineSupervisor]
 end

@@ -1,7 +1,7 @@
 defmodule RemotexWeb.Values.RandomUsersResponseParser do
   @moduledoc false
 
-  alias Remotex.Core.Values.UsersQueryResult
+  alias Remotex.Values.UsersQueryResult
   alias RemotexWeb.Values.RandomUserParser
   alias RemotexWeb.Values.RandomUsersResponse
 

@@ -6,10 +6,10 @@ defmodule RemotexWeb.EndToEndTest do
 
   import Mock
 
-  alias Remotex.Core.Engine
-  alias Remotex.Core.Schemas.User
-  alias Remotex.Core.Values.EngineState
+  alias Remotex.Engine
   alias Remotex.Repo
+  alias Remotex.Schemas.User
+  alias Remotex.Values.EngineState
   alias RemotexWeb.Controllers.RandomUsers
 
   @timestamp ~U[2021-10-21 10:47:08.067366Z]

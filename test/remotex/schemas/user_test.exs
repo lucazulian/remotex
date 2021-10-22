@@ -1,7 +1,7 @@
-defmodule Remotex.Core.Schemas.UserTest do
+defmodule Remotex.Schemas.UserTest do
   use Remotex.DataCase
 
-  alias Remotex.Core.Schemas.User
+  alias Remotex.Schemas.User
 
   @expected_fields_with_types [
     {:id, :id},

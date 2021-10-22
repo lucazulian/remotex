@@ -1,11 +1,11 @@
-defmodule Remotex.Core.EngineTest do
+defmodule Remotex.EngineTest do
   use ExUnit.Case, async: false
 
   import Mock
 
-  alias Remotex.Core.Engine
-  alias Remotex.Core.UserOperations
-  alias Remotex.Core.Values.UsersQueryResult
+  alias Remotex.Engine
+  alias Remotex.UserOperations
+  alias Remotex.Values.UsersQueryResult
 
   describe "Periodic action" do
     test "When the process \"ticks\", the update UsersQueryBulk interface is called" do

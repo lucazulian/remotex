@@ -7,12 +7,13 @@ defmodule RemotexWeb.Controllers.RandomUsersTest do
   import ExUnit.CaptureLog
   import Mock
 
-  alias Remotex.Core.Values.UsersQueryResult
+  alias Remotex.Engine
+  alias Remotex.Values.UsersQueryResult
   alias RemotexWeb.Controllers.RandomUsers
 
   describe "get/2" do
     test "It should returns 200 with valid response body when calling / endpoint" do
-      with_mock Remotex.Core.Engine,
+      with_mock Engine,
         query_users: fn -> {:ok, %UsersQueryResult{users: [], queried_at: nil}} end do
         conn = conn(:get, "/", %{})
         response = RandomUsers.get(conn, %{})
@@ -24,7 +25,7 @@ defmodule RemotexWeb.Controllers.RandomUsersTest do
 
     test "It should returns 500 with valid reason when calling / endpoint" do
       fun = fn ->
-        with_mock Remotex.Core.Engine, query_users: fn -> {:error, :a_very_specific_reason} end do
+        with_mock Engine, query_users: fn -> {:error, :a_very_specific_reason} end do
           conn = conn(:get, "/", %{})
           response = RandomUsers.get(conn, %{})
 

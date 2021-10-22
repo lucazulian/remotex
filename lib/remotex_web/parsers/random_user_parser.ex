@@ -1,7 +1,7 @@
 defmodule RemotexWeb.Values.RandomUserParser do
   @moduledoc false
 
-  alias Remotex.Core.Schemas.User
+  alias Remotex.Schemas.User
   alias RemotexWeb.Values.RandomUser
 
   @spec parse(result :: User.t()) :: RandomUser.t()

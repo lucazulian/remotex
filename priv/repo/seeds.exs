@@ -13,7 +13,7 @@
 require Logger
 
 alias Remotex.Repo
-alias Remotex.Core.Schemas.User
+alias Remotex.Schemas.User
 
 Logger.configure(level: :info)
 

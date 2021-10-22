@@ -1,4 +1,4 @@
-defmodule Remotex.Core.Values.EngineState do
+defmodule Remotex.Values.EngineState do
   @moduledoc false
 
   @random_range 0..100 |> Enum.to_list()

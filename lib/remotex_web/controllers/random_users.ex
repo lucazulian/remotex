@@ -8,7 +8,7 @@ defmodule RemotexWeb.Controllers.RandomUsers do
 
   import Plug.Conn
 
-  alias Remotex.Core.Engine
+  alias Remotex.Engine
   alias RemotexWeb.OpenApi.ApiResponses
   alias RemotexWeb.Values.RandomUsersErrorResponse, as: Error
   alias RemotexWeb.Values.RandomUsersResponseParser, as: Parser

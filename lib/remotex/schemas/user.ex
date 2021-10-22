@@ -1,4 +1,4 @@
-defmodule Remotex.Core.Schemas.User do
+defmodule Remotex.Schemas.User do
   @moduledoc false
 
   use Ecto.Schema
@@ -14,6 +14,7 @@ defmodule Remotex.Core.Schemas.User do
 
   schema "users" do
     field :points, :integer, default: 0
+
     timestamps()
   end
 end

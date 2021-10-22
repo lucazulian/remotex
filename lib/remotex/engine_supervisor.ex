@@ -1,4 +1,4 @@
-defmodule Remotex.Core.Supervisor do
+defmodule Remotex.EngineSupervisor do
   @moduledoc false
 
   use Supervisor
@@ -16,7 +16,7 @@ defmodule Remotex.Core.Supervisor do
   defp children do
     [
       {Task.Supervisor, name: Remotex.TaskSupervisor},
-      Remotex.Core.Engine
+      Remotex.Engine
     ]
   end
 end

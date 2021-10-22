@@ -1,13 +1,13 @@
-defmodule Remotex.Core.Engine do
+defmodule Remotex.Engine do
   @moduledoc false
 
   use GenServer
 
   require Logger
 
-  alias Remotex.Core.UserOperations
-  alias Remotex.Core.Values.EngineState
-  alias Remotex.Core.Values.UsersQueryResult
+  alias Remotex.UserOperations
+  alias Remotex.Values.EngineState
+  alias Remotex.Values.UsersQueryResult
 
   @spec query_users :: {:ok, UsersQueryResult.t()} | {:error, term()}
   def query_users do

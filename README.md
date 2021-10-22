@@ -27,10 +27,12 @@ The `Engine` genserver with run a periodic action every minute in which all reco
 Together with the database action, the `max_number` in `Engine` genserver would be updated with a new random value between 0 and 100 (comprised).
 The `Engine` genserver has a `query_users` api which retrieve a max of 2 users with more points than `max_number` previously mentioned. 
 
-For testing purposes, all these operations are delegate to `EngineState` struct and `UserOperations` module.
+For testing purposes, all these operations are delegate to `EngineState` struct and `EngineOperations` module.
 For the same reason, in order to test periodic action without wait some intervals, `Engine` genserver has two modes:
 - `periodic` which is the default and allow periodic actions
 - `manual` which is used by test to trigger manually the `handle_info`
+
+`EngineState` is responsible to init and update genserver state, while to `EngineOperations` are delegate all engine's operation available in the application.
 
 In this way it's possible to unit test the above business logic without the problems presented by testing it with OTP infrastructure.
 There are also integration tests that exercise the business logic with OTP infrastructure.

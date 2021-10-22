@@ -1,7 +1,7 @@
 defmodule RemotexWeb.Parsers.RandomUserParserTest do
   use ExUnit.Case, async: true
 
-  alias Remotex.Core.Schemas.User
+  alias Remotex.Schemas.User
   alias RemotexWeb.Values.RandomUser
   alias RemotexWeb.Values.RandomUserParser
 

@@ -1,7 +1,7 @@
-defmodule Remotex.Core.Values.UsersQueryResult do
+defmodule Remotex.Values.UsersQueryResult do
   @moduledoc false
 
-  alias Remotex.Core.Schemas.User
+  alias Remotex.Schemas.User
 
   @type t :: %__MODULE__{
           users: list(User.t()),

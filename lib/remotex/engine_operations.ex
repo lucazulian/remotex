@@ -1,14 +1,14 @@
-defmodule Remotex.Core.UserOperations do
+defmodule Remotex.UserOperations do
   @moduledoc false
 
   import Ecto.Query
 
   require Logger
 
-  alias Remotex.Core.Schemas.User
-  alias Remotex.Core.Values.EngineState
-  alias Remotex.Core.Values.UsersQueryResult
   alias Remotex.Repo
+  alias Remotex.Schemas.User
+  alias Remotex.Values.EngineState
+  alias Remotex.Values.UsersQueryResult
 
   def update do
     User
