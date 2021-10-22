@@ -23,7 +23,7 @@ When the application starts, the `Engine` genserver starts with a default `Engin
 - `max_number` a integer random number between 0 and 100 (comprised)
 - `queried_at` a timestamp, which indicates the last time someone queried the genserver (`nil` for first query)
 
-The `Engine` genserver with run a periodic action every minute in which all record in user's table are updated using a random number generator between 0 and 100 (comprised).
+The `Engine` genserver run a periodic action every minute in which all records in user's table are updated using a random number generator between 0 and 100 (comprised).
 Together with the database action, the `max_number` in `Engine` genserver would be updated with a new random value between 0 and 100 (comprised).
 The `Engine` genserver has a `query_users` api which retrieve a max of 2 users with more points than `max_number` previously mentioned. 
 
