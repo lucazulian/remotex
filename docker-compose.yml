@@ -14,8 +14,6 @@ services:
     environment:
       POSTGRES_HOST: remotex-db
       POSTGRES_PORT: 5432
-    # env_file:
-    #   - .env.dev
     ports:
       - 4000:4000
     volumes:
