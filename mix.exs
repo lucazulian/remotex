@@ -73,7 +73,7 @@ defmodule Remotex.MixProject do
       ignore_warnings: ".dialyzer_ignore.exs",
       plt_add_apps: [:ex_unit, :jason, :mix],
       plt_add_deps: :app_tree,
-      plt_file: {:no_warn, "priv/plts/remotex_1_12_2_otp_24.plt"}
+      plt_file: {:no_warn, "priv/plts/remotex_1_13_1_otp_24.plt"}
     ]
   end
 
